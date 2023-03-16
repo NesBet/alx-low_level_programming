@@ -1,7 +1,7 @@
 /**
- * main -This is the entry point of program
+ * main - This is the entry point of program
  *
- * Return is Always 0
+ * Return: is always 0
  */
 
 #include<stdio.h>
