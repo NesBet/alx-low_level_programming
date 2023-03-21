@@ -2,7 +2,7 @@
 /**
  * times_table - Times 9 table. 
  * Return: Null.
- */
+*/
 void times_table(void)
 {
 	int i, j, n;
