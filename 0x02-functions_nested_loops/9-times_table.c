@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * times_table - Times 9 table.
  * 
