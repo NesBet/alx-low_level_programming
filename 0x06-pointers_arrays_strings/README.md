@@ -6,3 +6,7 @@
 5-string_toupper.c__Function that changes all lowercase letters of a string to uppercase.
 6-cap_string.c___Function that capitalizes all words of a string.
 7-leet.c___Function that encodes a string into 1337.
+100-rot13.c___Function that encodes a string using rot13.
+101-print_number.c___Program prints a[2] = 98 after adding one line.
+103-infinite_add.c___Function that adds two numbers.
+104-print_buffer.c___Function that prints a buffer.
