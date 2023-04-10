@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "main.ch"
+#include "main.h"
 /**
  *main - Adds positive numbers.
  *@argc: Total number of command line arguments.
