@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -11,22 +12,22 @@
 char *argstostr(int ac, char **av)
 {
 	char *arout;
-	int c, i, j, ia;
+	int k, i, j, b;
 
 	if (ac == 0)
 		return (NULL);
 
-	for (c = i = 0; i < ac; i++)
+	for (k = i = 0; i < ac; i++)
 	{
 		if (av[i] == NULL)
 			return (NULL);
 
 		for (j = 0; av[i][j] != '\0'; j++)
-			c++;
-		c++;
+			k++;
+		k++;
 	}
 
-	arout = malloc((c + 1) * sizeof(char));
+	arout = malloc((k + 1) * sizeof(char));
 
 	if (arout == NULL)
 	{
@@ -34,19 +35,19 @@ char *argstostr(int ac, char **av)
 		return (NULL);
 	}
 
-	for (i = j = ia = 0; ia < c; j++, ia++)
+	for (i = j = b = 0; b < c; j++, b++)
 	{
 		if (av[i][j] == '\0')
 		{
 			arout[ia] = '\n';
 			i++;
-			ia++;
+			b++;
 			j = 0;
 		}
-		if (ia < c - 1)
-			arout[ia] = av[i][j];
+		if (b < k - 1)
+			arout[b] = av[i][j];
 	}
-	arout[ia] = '\0';
+	arout[b] = '\0';
 
 	return (arout);
 }
