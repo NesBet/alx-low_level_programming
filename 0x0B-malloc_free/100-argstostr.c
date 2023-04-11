@@ -35,11 +35,11 @@ char *argstostr(int ac, char **av)
 		return (NULL);
 	}
 
-	for (i = j = b = 0; b < c; j++, b++)
+	for (i = j = b = 0; b < k; j++, b++)
 	{
 		if (av[i][j] == '\0')
 		{
-			arout[ia] = '\n';
+			arout[b] = '\n';
 			i++;
 			b++;
 			j = 0;
