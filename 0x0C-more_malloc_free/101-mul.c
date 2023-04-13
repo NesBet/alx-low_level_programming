@@ -4,31 +4,30 @@
 #include <ctype.h>
 
 /**
- * _is_zero - Checks if any number is zero
+ * _is_zero - Checks f any number is zero
  * @argv: Argument vector.
  *
  * Return: NULL.
- *
  */
 void _is_zero(char *argv[])
 {
-	int i, in1 = 1, in2 = 1;
+	int i, isn1 = 1, isn2 = 1;
 
 	for (i = 0; argv[1][i]; i++)
 		if (argv[1][i] != '0')
 		{
-			in1 = 0;
+			isn1 = 0;
 			break;
 		}
 
 	for (i = 0; argv[2][i]; i++)
 		if (argv[2][i] != '0')
 		{
-			in2 = 0;
+			isn2 = 0;
 			break;
 		}
 
-	if (in1 == 1 || in2 == 1)
+	if (isn1 == 1 || isn2 == 1)
 	{
 		printf("0\n");
 		exit(0);
@@ -36,9 +35,9 @@ void _is_zero(char *argv[])
 }
 
 /**
- * _initialize_array - Initialize memory to 0.
+ * _initialize_array - Sets memory to 0 in a new array.
  * @ar: Array.
- * @lar: Length of the char array.
+ * @lar: Length of the array.
  *
  * Return: Pointer to the array.
  */
@@ -53,47 +52,46 @@ char *_initialize_array(char *ar, int lar)
 }
 
 /**
- * _checknum - Checks length of the number
- * and if number is in decimal notation.
+ * _checknum - Checks length of the number and if it's of decimal notation.
  * @argv: Arguments vector.
- * @n: Array's row.
+ * @n: Array row.
  *
  * Return: Length of the number.
  */
 int _checknum(char *argv[], int n)
 {
-	int lon;
+	int ln;
 
-	for (lon = 0; argv[n][lon]; lon++)
-		if (!isdigit(argv[n][lon]))
+	for (ln = 0; argv[n][ln]; ln++)
+		if (!isdigit(argv[n][ln]))
 		{
 			printf("Error\n");
 			exit(98);
 		}
 
-	return (lon);
+	return (ln);
 }
 
 /**
- * main - Multiplies two positive numbers.
- * @argc: Total number of arguments.
+ * main - Start, multiplies two numbers.
+ * @argc: Number of arguments.
  * @argv: Arguments vector.
  *
- * Return: 0 for success.
+ * Return: 0 if successful.
  */
 int main(int argc, char *argv[])
 {
-	int lon1, lon2, lonout, add, addl, i, j, k, m;
+	int ln1, ln2, lnout, add, addl, i, j, k, ca;
 	char *nout;
 
 	if (argc != 3)
 		printf("Error\n"), exit(98);
-	lon1 = _checknum(argv, 1), lon2 = _checknum(argv, 2);
-	_is_zero(argv), lonout = lon1 + lon2, nout = malloc(lonout + 1);
+	ln1 = _checknum(argv, 1), ln2 = _checknum(argv, 2);
+	_is_zero(argv), lnout = ln1 + ln2, nout = malloc(lnout + 1);
 	if (nout == NULL)
 		printf("Error\n"), exit(98);
-	nout = _initialize_array(nout, lonout);
-	k = lonout - 1, i = lon1 - 1, j = lon2 - 1, m = addl = 0;
+	nout = _initialize_array(nout, lnout);
+	k = lnout - 1, i = ln1 - 1, j = ln2 - 1, ca = addl = 0;
 	for (; k >= 0; k--, i--)
 	{
 		if (i < 0)
@@ -105,15 +103,15 @@ int main(int argc, char *argv[])
 					nout[k - 1] = (add / 10) + '0';
 				nout[k] = (add % 10) + '0';
 			}
-			i = lon1 - 1, j--, addl = 0, m++, k = lonout - (1 + m);
+			i = ln1 - 1, j--, addl = 0, ca++, k = lnout - (1 + ca);
 		}
 		if (j < 0)
 		{
 			if (nout[0] != '0')
 				break;
-			lonout--;
-			free(nout), nout = malloc(lonout + 1), nout = _initialize_array(nout, lonout);
-			k = lonout - 1, i = lon1 - 1, j = lon2 - 1, m = addl = 0;
+			lnout--;
+			free(nout), nout = malloc(lnout + 1), nout = _initialize_array(nout, lnout);
+			k = lnout - 1, i = ln1 - 1, j = ln2 - 1, ca = addl = 0;
 		}
 		if (j >= 0)
 		{
