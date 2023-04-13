@@ -9,11 +9,12 @@
  *
  * Return: Pointer to the allocated memory location.
  * Return a status value of 98 if malloc fails.
+ *
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	char *out;
-	unsigned int l1, l2, lout, i;
+	char *sout;
+	unsigned int ls1, ls2, lsout, i;
 
 	if (s1 == NULL)
 		s1 = "";
@@ -21,29 +22,29 @@ char *string_nconcat(char *s1, char *s2, unsigned int n)
 	if (s2 == NULL)
 		s2 = "";
 
-	for (l1 = 0; s1[lc1] != '\0'; l1++)
+	for (ls1 = 0; s1[ls1] != '\0'; ls1++)
 		;
 
-	for (l2 = 0; s2[l2] != '\0'; l2++)
+	for (ls2 = 0; s2[ls2] != '\0'; ls2++)
 		;
 
-	if (n > l2)
-		n = l2;
+	if (n > ls2)
+		n = ls2;
 
-	lout = l1 + n;
+	lsout = ls1 + n;
 
-	out = malloc(lout + 1);
+	sout = malloc(lsout + 1);
 
-	if (out == NULL)
+	if (sout == NULL)
 		return (NULL);
 
-	for (i = 0; i < lout; i++)
-		if (i < l1)
-			cout[i] = s1[i];
+	for (i = 0; i < lsout; i++)
+		if (i < ls1)
+			sout[i] = s1[i];
 		else
-			cout[i] = s2[i - l1];
+			sout[i] = s2[i - ls1];
 
-	cout[i] = '\0';
+	sout[i] = '\0';
 
-	return (out);
+	return (sout);
 }
