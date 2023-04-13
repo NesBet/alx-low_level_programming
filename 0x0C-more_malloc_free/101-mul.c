@@ -53,14 +53,14 @@ char *_initialize_array(char *ar, int lar)
 }
 
 /**
- * _check_num - Checks length of the number
+ * _checknum - Checks length of the number
  * and if number is in decimal notation.
  * @argv: Arguments vector.
  * @n: Array's row.
  *
  * Return: Length of the number.
  */
-int _check_num(char *argv[], int n)
+int _checknum(char *argv[], int n)
 {
 	int lon;
 
@@ -88,12 +88,12 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 		printf("Error\n"), exit(98);
-	lon1 = _check_num(argv, 1), lon2 = _check_num(argv, 2);
+	lon1 = _check_num(argv, 1), lon2 = _checknum(argv, 2);
 	_is_zero(argv), lonout = lon1 + lon2, nout = malloc(lonout + 1);
 	if (nout == NULL)
 		printf("Error\n"), exit(98);
 	nout = _initialize_array(nout, lonout);
-	k = lonout - 1, i = lon1 - 1, j = ln2 - 1, m = addl = 0;
+	k = lonout - 1, i = lon1 - 1, j = lon2 - 1, m = addl = 0;
 	for (; k >= 0; k--, i--)
 	{
 		if (i < 0)
