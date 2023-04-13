@@ -64,8 +64,8 @@ int _checknum(char *argv[], int n)
 {
 	int lon;
 
-	for (lon = 0; argv[n][ln]; ln++)
-		if (!isdigit(argv[n][ln]))
+	for (lon = 0; argv[n][lon]; lon++)
+		if (!isdigit(argv[n][lon]))
 		{
 			printf("Error\n");
 			exit(98);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 		printf("Error\n"), exit(98);
-	lon1 = _check_num(argv, 1), lon2 = _checknum(argv, 2);
+	lon1 = _checknum(argv, 1), lon2 = _checknum(argv, 2);
 	_is_zero(argv), lonout = lon1 + lon2, nout = malloc(lonout + 1);
 	if (nout == NULL)
 		printf("Error\n"), exit(98);
