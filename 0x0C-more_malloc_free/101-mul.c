@@ -45,7 +45,10 @@ int _is_zero(char *argv[])
  */
 char *_initialize_array(char *ar, int lar)
 {
-	memset(ar, '0', lar);
+	int i = 0;
+
+	for (i = 0; i < lar; i++)
+		ar[i] = '0';
 	ar[lar] = '\0';
 	return (ar);
 }
