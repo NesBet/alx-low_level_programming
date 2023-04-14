@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <limits.h>
 
 /**
  * _is_zero - Checks f any number is zero
