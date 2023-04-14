@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 /**
  * _is_zero - Checks f any number is zero
  * @argv: Argument vector.
  *
- * Return: NULL.
+ * Return: 1 if number is zero or 0 if otherwise.
  */
-void _is_zero(char *argv[])
+int _is_zero(char *argv[])
 {
 	int i, isn1 = 1, isn2 = 1;
 
@@ -30,8 +31,9 @@ void _is_zero(char *argv[])
 	if (isn1 == 1 || isn2 == 1)
 	{
 		printf("0\n");
-		exit(0);
+		return 1;
 	}
+	return 0;
 }
 
 /**
@@ -43,10 +45,7 @@ void _is_zero(char *argv[])
  */
 char *_initialize_array(char *ar, int lar)
 {
-	int i = 0;
-
-	for (i = 0; i < lar; i++)
-		ar[i] = '0';
+	memset(ar, '0', lar);
 	ar[lar] = '\0';
 	return (ar);
 }
