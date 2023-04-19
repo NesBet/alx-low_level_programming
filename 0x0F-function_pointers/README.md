@@ -5,3 +5,4 @@
 3-op_functions.c___File containing corresponding functions.
 3-get_op_func.c___Contains the function that selects the correct function to perform the operation asked by the user.
 3-calc.h___Contains all the function prototypes and data structures used by the program.
+100-main_opcodes.c___Program that prints the opcodes of its own main function.
