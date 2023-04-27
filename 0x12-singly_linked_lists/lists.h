@@ -12,6 +12,7 @@
  * @next: Pointer to the next node
  * Description: Singly linked list node structure.
  */
+
 typedef struct list_s
 {
 	char *str;
