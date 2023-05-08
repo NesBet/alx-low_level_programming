@@ -126,7 +126,6 @@ void print_version(char *ptr)
 /**
  * print_data - prints data
  * @ptr: Pointer.
- * 
  * Return: NULL.
  */
 void print_data(char *ptr)
@@ -186,7 +185,7 @@ void check_system(char *ptr)
 	print_version(ptr);
 	print_osabi(ptr);
 	print_type(ptr);
-	print_addr(ptr);
+	print_address(ptr);
 }
 
 /**
