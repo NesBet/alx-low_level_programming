@@ -155,11 +155,11 @@ void print_magic(char *ptr)
 }
 
 /**
- * check_elf - Checks system's version.
+ * check_sys - Checks system's version.
  * @ptr: Pointer.
  * Return: NULL.
  */
-void check_elf(char *ptr)
+void check_sys(char *ptr)
 {
 	char elf = ptr[4] + '0';
 
@@ -183,11 +183,11 @@ void check_elf(char *ptr)
 }
 
 /**
- * check_elf - Verifies if it is an elf file.
+ * check_sys - Verifies if it is an elf file.
  * @ptr: Pointer.
  * Return: 1 for an elf file, 0 if not.
  */
-int check_elf(char *ptr)
+int check_sys(char *ptr)
 {
 	int addr = (int)ptr[0];
 	char E = ptr[1];
