@@ -1,245 +1,289 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <elf.h>
+#include <fcntl.h>
+#include <stdio.h>
 
 /**
- * print_addr - Prints an address.
- * @ptr: Pointer.
- * Return: Null.
+ * _strncmp - Compares 2 strings.
+ * @s1: First string.
+ * @s2: Second string.
+ * @n: Maximum number of bytes to be compared.
+ * Return: 0 if first n bytes of s1 and s2 are equal,
+ * else if not.
  */
-void print_addr(char *ptr)
+int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	int i;
-	int begin;
-	char sys;
-
-	printf("  Entry point address:               0x");
-
-	sys = ptr[4] + '0';
-	if (sys == '1')
+	for ( ; n && *s1 && *s2; --n, ++s1, ++s2)
 	{
-		begin = 26;
-		printf("80");
-		for (i = begin; i >= 22; i--)
-		{
-			if (ptr[i] > 0)
-				printf("%x", ptr[i]);
-			else if (ptr[i] < 0)
-				printf("%x", 256 + ptr[i]);
-		}
-		if (ptr[7] == 6)
-			printf("00");
+		if (*s1 != *s2)
+			return (*s1 - *s2);
 	}
-
-	if (sys == '2')
+	if (n)
 	{
-		begin = 26;
-		for (i = begin; i > 23; i--)
-		{
-			if (ptr[i] >= 0)
-				printf("%02x", ptr[i]);
-
-			else if (ptr[i] < 0)
-				printf("%02x", 256 + ptr[i]);
-
-		}
+		if (*s1)
+			return (1);
+		if (*s2)
+			return (-1);
 	}
-	printf("\n");
-}
-
-/**
- * print_type - Prints the type of file.
- * @ptr: Pointer.
- * Return: NULL.
- */
-void print_type(char *ptr)
-{
-	char type = ptr[16];
-
-	if (ptr[5] == 1)
-		type = ptr[16];
-	else
-		type = ptr[17];
-
-	printf("  Type:                              ");
-	if (type == 0)
-		printf("NONE (No file type)\n");
-	else if (type == 1)
-		printf("REL (Relocatable file)\n");
-	else if (type == 2)
-		printf("EXEC (Executable file)\n");
-	else if (type == 3)
-		printf("DYN (Shared object file)\n");
-	else if (type == 4)
-		printf("CORE (Core file)\n");
-	else
-		printf("<unknown: %x>\n", type);
-}
-
-/**
- * print_osabi - Prints requirement osabi.
- * @ptr: Pointer.
- * Return: NULL.
- */
-void print_osabi(char *ptr)
-{
-	char osabi = ptr[7];
-
-	printf("  OS/ABI:                            ");
-	if (osabi == 0)
-		printf("UNIX - System V\n");
-	else if (osabi == 2)
-		printf("UNIX - NetBSD\n");
-	else if (osabi == 6)
-		printf("UNIX - Solaris\n");
-	else
-		printf("<unknown: %x>\n", osabi);
-
-	printf("  ABI Version:                       %d\n", ptr[8]);
-}
-
-
-/**
- * print_version - Prints the version.
- * @ptr: Pointer.
- * Return: NULL.
- */
-void print_version(char *ptr)
-{
-	int version = ptr[6];
-
-	printf("  Version:                           %d", version);
-
-	if (version == EV_CURRENT)
-		printf(" (current)");
-
-	printf("\n");
-}
-/**
- * print_data - Prints data contained in file.
- * @ptr: Pointer.
- * Return: NULL.
- */
-void print_data(char *ptr)
-{
-	char data = ptr[5];
-
-	printf("  Data:                              2's complement");
-	if (data == 1)
-		printf(", little endian\n");
-
-	if (data == 2)
-		printf(", big endian\n");
-}
-/**
- * print_magic - Prints pointer info.
- * @ptr: Pointer.
- * Return: NULL.
- */
-void print_magic(char *ptr)
-{
-	int bytes;
-
-	printf("  Magic:  ");
-
-	for (bytes = 0; bytes < 16; bytes++)
-		printf(" %02x", ptr[bytes]);
-
-	printf("\n");
-
-}
-
-/**
- * check_sys - Checks system's version.
- * @ptr: Pointer.
- * Return: NULL.
- */
-void check_sys(char *ptr)
-{
-	char sys = ptr[4] + '0';
-
-	if (sys == '0')
-		exit(98);
-
-	printf("ELF Header:\n");
-	print_magic(ptr);
-
-	if (sys == '1')
-		printf("  Class:                             ELF32\n");
-
-	if (sys == '2')
-		printf("  Class:                             ELF64\n");
-
-	print_data(ptr);
-	print_version(ptr);
-	print_osabi(ptr);
-	print_type(ptr);
-	print_addr(ptr);
-}
-
-/**
- * check_sys - Verifies if it is an elf file.
- * @ptr: Pointer.
- * Return: 1 for an elf file, 0 if not.
- */
-int check_sys(char *ptr)
-{
-	int addr = (int)ptr[0];
-	char E = ptr[1];
-	char L = ptr[2];
-	char F = ptr[3];
-
-	if (addr == 127 && E == 'E' && L == 'L' && F == 'F')
-		return (1);
-
 	return (0);
 }
 /**
- * main - Verifies the code.
- * @argc: Total number of arguments.
- * @argv: Arguments vector.
+ * _close - Closes a file descriptor.
+ * @fd: File descriptor to be closed.
+ */
+void _close(int fd)
+{
+	if (close(fd) != -1)
+		return;
+	write(STDERR_FILENO, "Error: Can't close fd\n", 22);
+	exit(98);
+}
+/**
+ * _read - Reads contents in a file.
+ * @fd: File descriptor to be read from.
+ * @buf: Buffer to be written to.
+ * @count: Total number of bytes to be read.
+ */
+void _read(int fd, char *buf, size_t count)
+{
+	if (read(fd, buf, count) != -1)
+		return;
+	write(STDERR_FILENO, "Error: Can't read from file\n", 28);
+	_close(fd);
+	exit(98);
+}
+/**
+ * elf_magic - Prints 'ELF magic'.
+ * @buffer: ELF header file.
+ */
+void elf_magic(const unsigned char *buffer)
+{
+	unsigned int i;
+
+	if (_strncmp((const char *) buffer, ELFMAG, 4))
+	{
+		write(STDERR_FILENO, "Error: Not an ELF file\n", 23);
+		exit(98);
+	}
+
+	printf("ELF Header:\n  Magic:   ");
+
+	for (i = 0; i < 16; ++i)
+		printf("%02x%c", buffer[i], i < 15 ? ' ' : '\n');
+}
+/**
+ * elf_class - Prints ELF's file class.
+ * @buffer: Buffer containing ELF header.
+ *
+ * Return: Bit mode, either 32 or 64.
+ */
+size_t elf_class(const unsigned char *buffer)
+{
+	printf("  %-34s ", "Class:");
+
+	if (buffer[EI_CLASS] == ELFCLASS64)
+	{
+		printf("ELF64\n");
+		return (64);
+	}
+	if (buffer[EI_CLASS] == ELFCLASS32)
+	{
+		printf("ELF32\n");
+		return (32);
+	}
+	printf("<unknown: %x>\n", buffer[EI_CLASS]);
+
+	return (32);
+}
+/**
+ * elf_data - Prints the ELF file data.
+ * @buffer: Buffer containing ELF header.
+ * Return: 1 for big endian, else 0.
+ */
+int elf_data(const unsigned char *buffer)
+{
+	printf("  %-34s ", "Data:");
+
+	if (buffer[EI_DATA] == ELFDATA2MSB)
+	{
+		printf("2's complement, big endian\n");
+		return (1);
+	}
+	if (buffer[EI_DATA] == ELFDATA2LSB)
+	{
+		printf("2's complement, little endian\n");
+		return (0);
+	}
+	printf("Invalid data encoding\n");
+	return (0);
+}
+/**
+ * elf_version - Prints the ELF file version.
+ * @buffer: Buffer containing ELF header
+ */
+void elf_version(const unsigned char *buffer)
+{
+	printf("  %-34s %u", "Version:", buffer[EI_VERSION]);
+
+	if (buffer[EI_VERSION] == EV_CURRENT)
+		printf(" (current)\n");
+	else
+		printf("\n");
+}
+/**
+ * elf_osabi - Prints te ELF OS/ABI.
+ * @buffer: Buffer containg the ELF header file.
+ */
+void elf_osabi(const unsigned char *buffer)
+{
+	const char *os_table[19] = {
+		"UNIX - Solaris",
+		"UNIX - AIX",
+		"UNIX - IRIX",
+		"UNIX - FreeBSD",
+		"UNIX - Tru64",
+		"AROS",
+		"FenixOS",
+		"Nuxi CloudABI",
+		"Stratus Technologies OpenVOS",
+		"Novell - Modesto",
+		"UNIX - OpenBSD",
+		"VMS - OpenVMS",
+		"HP - Non-Stop Kernel",
+		"<unknown: 4>",
+		"<unknown: 5>",
+		"UNIX - NetBSD",
+		"UNIX - GNU",
+		"UNIX - System V",
+		"UNIX - HP-UX"
+	};
+	printf("  %-34s ", "OS/ABI:");
+
+	if (buffer[EI_OSABI] < 19)
+		printf("%s\n", os_table[(unsigned int) buffer[EI_OSABI]]);
+	else
+		printf("<unknown: %x>\n", buffer[EI_OSABI]);
+}
+/**
+ * elf_abivers - Prints the  ELF ABI version type.
+ * @buffer: Buffer containing ELF header.
+ */
+void elf_abivers(const unsigned char *buffer)
+{
+	printf("  %-34s %u\n", "ABI Version:", buffer[EI_ABIVERSION]);
+}
+/**
+ * elf_type - Prints ELF file type.
+ * @buffer: Buffer with ELF header.
+ * @big_endian: Endianness.
+ */
+void elf_type(const unsigned char *buffer, int big_endian)
+{
+	char *type_table[5] = {
+		"DYN (Shared object file)",
+		"CORE (Core file)",
+		"NONE (No file type)",
+		"EXEC (Executable file)",
+		"REL (Relocatable file)"
+	};
+	unsigned int type;
+
+	printf("  %-34s ", "Type:");
+
+	if (big_endian)
+		type = 0x100 * buffer[16] + buffer[17];
+	else
+		type = 0x100 * buffer[17] + buffer[16];
+
+	if (type < 5)
+		printf("%s\n", type_table[type]);
+	else if (type >= ET_LOOS && type <= ET_HIOS)
+		printf("OS Specific: (%4x)\n", type);
+	else if (type >= ET_LOPROC && type <= ET_HIPROC)
+		printf("Processor Specific: (%4x)\n", type);
+	else
+		printf("<unknown: %x>\n", type);
+}
+/**
+ * elf_entry - Prints entry point address.
+ * @buffer: Buffer containing the entry point address.
+ * @bit_mode: Bit mode, either 32 or 64.
+ * @big_endian: Endianness.
+ */
+void elf_entry(const unsigned char *buffer, size_t bit_mode, int big_endian)
+{
+	int address_size = bit_mode / 8;
+
+	printf("  %-34s 0x", "Entry point address:");
+
+	if (big_endian)
+	{
+		while (address_size && !*(buffer))
+			--address_size, ++buffer;
+
+		printf("%x", *buffer & 0xff);
+
+		while (--address_size > 0)
+			printf("%02x", *(++buffer) & 0xff);
+	}
+	else
+	{
+		buffer += address_size;
+
+		while (address_size && !*(--buffer))
+			--address_size;
+
+		printf("%x", *buffer & 0xff);
+
+		while (--address_size > 0)
+			printf("%02x", *(--buffer) & 0xff);
+	}
+
+	printf("\n");
+}
+/**
+ * main - Verifies code.
+ * @argc: Argument count.
+ * @argv: Argument values.
  * Return: Always 0.
  */
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
-	int fd, ret_read;
-	char ptr[27];
+	unsigned char buffer[18];
+	unsigned int bit_mode;
+	int big_endian;
+	int fd;
 
 	if (argc != 2)
 	{
-		dprintf(STDERR_FILENO, "Usage: elf_header elf_filename\n");
+		write(STDERR_FILENO, "Usage: elf_header elf_filename\n", 31);
 		exit(98);
 	}
 
 	fd = open(argv[1], O_RDONLY);
-
-	if (fd < 0)
+	if (fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Err: file can not be open\n");
+		write(STDERR_FILENO, "Error: Can't read from file\n", 28);
 		exit(98);
 	}
 
-	lseek(fd, 0, SEEK_SET);
-	ret_read = read(fd, ptr, 27);
+	_read(fd, (char *) buffer, 18);
 
-	if (ret_read == -1)
-	{
-		dprintf(STDERR_FILENO, "Err: The file can not be read\n");
-		exit(98);
-	}
+	bit_mode = elf_class(buffer);
+	big_endian = elf_data(buffer);
+	elf_magic(buffer);
+	elf_version(buffer);
+	elf_osabi(buffer);
+	elf_abivers(buffer);
+	elf_type(buffer, big_endian);
 
-	if (!check_sys(ptr))
-	{
-		dprintf(STDERR_FILENO, "Err: It is not an ELF\n");
-		exit(98);
-	}
+	lseek(fd, 24, SEEK_SET);
+	_read(fd, (char *) buffer, bit_mode / 8);
 
-	check_sys(ptr);
-	close(fd);
+	elf_entry(buffer, bit_mode, big_endian);
+
+	_close(fd);
 
 	return (0);
 }
