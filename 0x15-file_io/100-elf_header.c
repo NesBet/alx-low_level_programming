@@ -15,12 +15,12 @@ void print_addr(char *ptr)
 {
 	int i;
 	int begin;
-	char elf;
+	char sys;
 
 	printf("  Entry point address:               0x");
 
-	elf = ptr[4] + '0';
-	if (elf == '1')
+	sys = ptr[4] + '0';
+	if (sys == '1')
 	{
 		begin = 26;
 		printf("80");
@@ -35,7 +35,7 @@ void print_addr(char *ptr)
 			printf("00");
 	}
 
-	if (elf == '2')
+	if (sys == '2')
 	{
 		begin = 26;
 		for (i = begin; i > 23; i--)
@@ -160,18 +160,18 @@ void print_magic(char *ptr)
  */
 void check_sys(char *ptr)
 {
-	char elf = ptr[4] + '0';
+	char sys = ptr[4] + '0';
 
-	if (elf == '0')
+	if (sys == '0')
 		exit(98);
 
 	printf("ELF Header:\n");
 	print_magic(ptr);
 
-	if (elf == '1')
+	if (sys == '1')
 		printf("  Class:                             ELF32\n");
 
-	if (elf == '2')
+	if (sys == '2')
 		printf("  Class:                             ELF64\n");
 
 	print_data(ptr);
@@ -232,13 +232,13 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	if (!check_elf(ptr))
+	if (!check_sys(ptr))
 	{
 		dprintf(STDERR_FILENO, "Err: It is not an ELF\n");
 		exit(98);
 	}
 
-	check_elf(ptr);
+	check_sys(ptr);
 	close(fd);
 
 	return (0);
