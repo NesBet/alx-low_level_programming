@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <elf.h>
+#include "main.h"
 
 /**
  * print_addr - Prints an address.
@@ -202,10 +203,8 @@ int check_elf(char *ptr)
  * main - Verifies the code.
  * @argc: Total number of arguments.
  * @argv: Arguments vector.
- * @ptr: Pointer.
  * Return: Always 0.
  */
-void check_sys(char *ptr);
 int main(int argc, char *argv[])
 {
 	int fd, ret_read;
