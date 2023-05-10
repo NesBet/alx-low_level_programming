@@ -16,12 +16,12 @@ void print_addr(char *ptr)
 {
 	int i;
 	int begin;
-	char sys;
+	char elf;
 
 	printf("  Entry point address:               0x");
 
-	sys = ptr[4] + '0';
-	if (sys == '1')
+	elf = ptr[4] + '0';
+	if (elf == '1')
 	{
 		begin = 26;
 		printf("80");
@@ -36,7 +36,7 @@ void print_addr(char *ptr)
 			printf("00");
 	}
 
-	if (sys == '2')
+	if (elf == '2')
 	{
 		begin = 26;
 		for (i = begin; i > 23; i--)
@@ -159,20 +159,20 @@ void print_magic(char *ptr)
  * @ptr: Pointer.
  * Return: NULL.
  */
-void check_sys(char *ptr)
+void check_elf(char *ptr)
 {
-	char sys = ptr[4] + '0';
+	char elf = ptr[4] + '0';
 
-	if (sys == '0')
+	if (elf == '0')
 		exit(98);
 
 	printf("ELF Header:\n");
 	print_magic(ptr);
 
-	if (sys == '1')
+	if (elf == '1')
 		printf("  Class:                             ELF32\n");
 
-	if (sys == '2')
+	if (elf == '2')
 		printf("  Class:                             ELF64\n");
 
 	print_data(ptr);
@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	check_sys(ptr);
+	check_elf(ptr);
 	close(fd);
 
 	return (0);
