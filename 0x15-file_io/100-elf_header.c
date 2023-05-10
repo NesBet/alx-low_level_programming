@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	check_sys(ptr);
+	check_elf(ptr);
 	close(fd);
 
 	return (0);
