@@ -155,7 +155,7 @@ void print_magic(char *ptr)
 }
 
 /**
- * check_sys - Checks system's version.
+ * check_elf - Checks system's version.
  * @ptr: Pointer.
  * Return: NULL.
  */
