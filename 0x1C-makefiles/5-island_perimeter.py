@@ -1,26 +1,20 @@
 #!/usr/bin/python3
-""" Module containing island_perimeter code."""
+"""Module containing island_perimeter code"""
 
 
 def island_perimeter(grid):
-
+    """Return the perimiter of an island"""
     perimeter = 0
+    edges = 0
+    width = len(grid[0])
+    height = len(grid)
 
-    no_rows = len(grid)
-
-    if grid != []:
-        no_columns = len(grid[0])
-
-    for a in range(nrows):
-        for b in range(no_columns):
-            if grid[a][b] == 1:
-                if (a - 1) == -1 or grid[a - 1][b] == 0:
-                    perimeter += 1
-                if (a + 1) == no_rows or grid[a + 1][b] == 0:
-                    perimeter += 1
-                if (b - 1) == -1 or grid[a][b - 1] == 0:
-                    perimeter += 1
-                if (b + 1) == no_columns or grid[a][b + 1] == 0:
-                    perimeter += 1
-
-    return perimeter
+    for n in range(height):
+        for j in range(width):
+            if grid[n][j] == 1:
+                perimeter += 1
+                if (j > 0 and grid[n][j - 1] == 1):
+                    edges += 1
+                if (n > 0 and grid[n - 1][j] == 1):
+                    edges += 1
+    return perimeter * 4 - edges * 2
